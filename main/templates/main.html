@@ -1,8 +1,68 @@
-<h1>ThriftClick</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thrift Click</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* Font for the body */
+            line-height: 1.6; /* Improved readability */
+            color: #333; /* Dark gray text color */
+            background-color: #f0f0f0; /* Light gray background for the whole page */
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%; /* Container width for better alignment */
+            margin: 0 auto; /* Center-align the container */
+            padding: 20px; /* Padding around the content */
+            background-color: #fff; /* White background for the content area */
+            border-radius: 8px; /* Rounded corners for the container */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for a lifted effect */
+        }
+        h1 {
+            color: #444; /* Slightly darker gray for the heading */
+            text-align: center; /* Center-align the heading */
+            margin-top: 20px; /* Margin at the top of the heading */
+        }
+        p {
+            text-align: center; /* Center-align the paragraph text */
+            font-size: 1.2em; /* Slightly larger text for better readability */
+        }
+        ul {
+            list-style-type: none; /* Removes default bullet points */
+            padding: 0; /* Removes default padding */
+        }
+        .item {
+            margin-bottom: 20px; /* Space between items */
+            padding: 15px; /* Padding inside each item */
+            border-radius: 8px; /* Rounded corners */
+            background-color: #f9f9f9; /* Light gray background */
+            border: 1px solid #ddd; /* Light border for item separation */
+        }
+        .item strong {
+            display: block; /* Makes the item name display on its own line */
+            margin-bottom: 10px; /* Space below the item name */
+            font-size: 1.1em; /* Slightly larger font for item names */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p>{{ nama }} ({{ npm }}) - {{ kelas }}</p>
 
-<h5>Name: </h5>
-<p>{{ name }}</p>
-<h5>Price: </h5>
-<h5>{{ price }}</h5>
-<h5>Description: </h5>
-<h5>{{ description }}</h5>
+        <h1>Thrift Click Goods</h1>
+        <p>"Welcome to Thrift Click! Redefine your style and make every click count"</p>
+        <ul>
+            {% for item in items %}
+            <li class="item">
+                <strong>{{ item.name }}</strong>
+                Price: {{ item.price }}<br>
+                Description: {{ item.description }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
