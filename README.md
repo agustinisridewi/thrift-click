@@ -36,7 +36,8 @@ step akhir:
 - men-deactivate virtual environment
 
 ## Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html ##
-link bagan: 
+![Bagan Request Client](https://github.com/agustinisridewi/thrift-click/raw/main/IMG_5859.jpg)
+Request client pertama kali diproses oleh urls.py, yang mencocokkan URL dengan fungsi view di views.py. Di dalam views.py, logika dijalankan dan jika data dari database diperlukan, fungsi view memanggil model di models.py. Setelah data diperoleh, view menyiapkan template HTML dengan data tersebut, lalu merendernya. Hasilnya berupa halaman web atau respon JSON yang dikirim kembali ke browser client.
 
 
 ## Jelaskan fungsi git dalam pengembangan perangkat lunak!##
