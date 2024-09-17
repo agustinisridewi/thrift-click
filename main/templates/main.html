@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,45 +8,93 @@
     <title>Thrift Click</title>
     <style>
         body {
-            font-family: Arial, sans-serif; 
-            line-height: 1.6; 
-            color: #333; 
-            background-color: #f0f0f0; 
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f0f0f0;
             margin: 0;
             padding: 0;
         }
         .container {
-            width: 80%; 
-            margin: 0 auto; 
-            padding: 20px; 
-            background-color: #fff; 
-            border-radius: 8px; 
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         h1 {
-            color: #444; 
-            text-align: center; 
-            margin-top: 20px; 
+            color: #444;
+            text-align: center;
+            margin-top: 20px;
         }
         p {
-            text-align: center; 
-            font-size: 1.2em; 
+            text-align: center;
+            font-size: 1.2em;
         }
         ul {
-            list-style-type: none; 
-            padding: 0; 
+            list-style-type: none;
+            padding: 0;
         }
         .item {
-            margin-bottom: 20px; 
-            padding: 15px; 
-            border-radius: 8px; 
-            background-color: #f9f9f9; 
-            border: 1px solid #ddd; 
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
         }
         .item strong {
-            display: block; 
-            margin-bottom: 10px; 
-            font-size: 1.1em; 
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        /* Add Product Section Styling */
+        .add-product-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #eaf6ff;
+            border-radius: 8px;
+            border: 1px solid #b3d8ff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+        .add-product-section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #0056b3;
+        }
+        .add-product-section table {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .add-product-section th, .add-product-section td {
+            padding: 10px;
+            border: 1px solid #b3d8ff;
+        }
+        .add-product-section button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .add-product-section button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
@@ -63,6 +113,28 @@
             </li>
             {% endfor %}
         </ul>
+
+        <div class="add-product-section">
+            <h2>Add Your Clothing To Our Closet!</h2>
+            <table>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                </tr>
+                {% for product_entry in product_entries %}
+                <tr>
+                    <td>{{ product_entry.name }}</td>
+                    <td>{{ product_entry.price }}</td>
+                    <td>{{ product_entry.description }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <a href="{% url 'main:create_product_entry' %}">
+                <button>Add Clothing</button>
+            </a>
+        </div>
     </div>
 </body>
 </html>
+{% endblock content %}

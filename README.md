@@ -1,5 +1,6 @@
 link aplikasi pws: http://agus-tini31-thriftclick.pbp.cs.ui.ac.id/
 
+# TUGAS MANDIRI 2 #
 ## Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial) ##
 1) Membuat sebuah proyek Django baru
     - Membuat direktori lokal baru dengan nama thrift-click lalu menjalankan virtual environment di dalamnya.
@@ -36,7 +37,7 @@ step akhir:
 - men-deactivate virtual environment
 
 ## Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html ##
-![Bagan Request Client](https://github.com/agustinisridewi/thrift-click/raw/main/IMG_5859.jpg)
+![alt text](IMG_5859.jpg)
 Request client pertama kali diproses oleh urls.py, yang mencocokkan URL dengan fungsi view di views.py. Di dalam views.py, logika dijalankan dan jika data dari database diperlukan, fungsi view memanggil model di models.py. Setelah data diperoleh, view menyiapkan template HTML dengan data tersebut, lalu merendernya. Hasilnya berupa halaman web atau respon JSON yang dikirim kembali ke browser client.
 
 
@@ -66,3 +67,51 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField() 
+
+
+# TUGAS MANDIRI 3 #
+## Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform? ##
+Data delivery mengoptimalkan performa platform dengan mengurangi waktu muat dan bandwidth, memungkinkan pengolahan data real-time, serta mendukung keamanan dan kontrol akses data melalui enkripsi dan autentikasi. Selain itu, data delivery juga memungkinkan platform untuk menangani pertumbuhan pengguna dan volume data.
+
+## Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML? ##
+Melalui pengamatan akan kedua hasil akses URL tersebut pada postman, menurut saya JSON lebih baik ketimbang XML karena komponen yang terdapat di dalamnya lebih mudah dibaca.
+Setelah mencari tahu lebih lanjut, ternyata JSON memang lebih disukai dibandingkan XML, dengan beberapa alasan berikut.
+ - Sintaks JSON mirip dengan bahasa pemrograman modern dan formatnya hanya terdiri dari objek dan array sehingga lebih mudah dibaca. Sedangkan, sintaks XML lebih kompleks dengan tag pembuka dan penutup, atribut, dan hierarki yang lebih rumit. 
+ - Selain itu, format JSON merupakan subset dari objek JavaScript yang memudahkan pengolahan data JSON langsung dari browser. Jika menggunakam XML, dibutuhkan parsing tambahan (pembacaan dan interpretasi data)
+ - Parsing dan serialisasi JSON lebih cepat dan lebih efisien karena banyak bahasa pemrograman memiliki dukungan built-in atau library yang efisien untuk menangani JSON. 
+
+## Jelaskan fungsi dari method is_valid() pada form Django dan mengapa kita membutuhkan method tersebut? ##
+Fungsi utama dari is_valid() adalah untuk memeriksa apakah data yang diterima dari pengguna (misalnya, melalui form HTML) sesuai dengan aturan dan batasan yang telah ditetapkan dalam definisi form tersebut.
+
+
+## Mengapa kita membutuhkan csrf_token saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan csrf_token pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang? ##
+Kita butuh menambahkan csrf_token (Cross-Site Request Forgery token) agar aplikasi web terlindungi dari serangan (Cross-Site Request Forgery) CSRF. CSRF adalah jenis serangan di mana penyerang memanipulasi akses pengguna yang sudah login (terautentikasi) untuk melakukan tindakan yang tidak diinginkan pada aplikasi web yang mereka akses. 
+
+csrf_token adalah token unik yang dihasilkan oleh server dan disertakan dalam setiap form HTML. Token ini harus dikirimkan kembali ke server dengan setiap permintaan POST atau tindakan yang memodifikasi data. Server memeriksa token ini untuk memastikan bahwa permintaan tersebut benar-benar berasal dari pengguna yang sah dan bukan dari penyerang.
+
+Jika csrf_token tidak ditambahkan, penyerang dapat memanipulasi data atau membuat perubahan yang tidak sah pada aplikasi. Penyerang dapat memanfaatkan kerentanan CSRF untuk membuat permintaan berbahaya kepada aplikasi web dengan menggunakan formulir atau skrip yang disembunyikan di situs web lain. Jika pengguna yang sah sedang login, penyerang dapat membuat permintaan palsu yang memanfaatkan kredensial yang sudah ada. 
+
+## Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial) ##
+1) Membuat input form untuk menambahkan objek model pada app sebelumnya.
+    - Membuat form (forms.py) dengan model ProductEntry dengan field untuk menerima data Product baru
+    - Menambahkan fungsi create_product_entry(views.py) yang mengarahkan pengguna dari halaman utama ke halaman input kemudian memvalidasi, memproses, dan menyimpan input. Setelah input berhasil disimpan, pendapat akan diarahkan kembali ke halaman utama (redirect). 
+    - Menambahkan product_entries = Product.objects.all() pada fungsi show_main (views.py) agar input yang berhasil diterima ditampilkan ketika pengguna diarahkan kembali ke halaman utama
+    - Membuat HTML baru (create_mood_entry.html) untuk menampilkan form input
+    - URL Routing form input dengan menambahkan path URL ke dalam urlpatterns (urls.py)
+
+2) Tambahkan 4 fungsi views baru untuk melihat objek yang sudah ditambahkan dalam format XML, JSON, XML by ID, dan JSON by ID.
+    - Mengimport HttpResponse dan Serializer pada views.py 
+    - Menambahkan 4 fungsi untuk view dengan format JSON dan XML di views.py (show_xml, show_json, show_xml_by_id, dan show_json_by_id)
+
+3) Membuat routing URL untuk masing-masing views yang telah ditambahkan pada poin 2
+    - Meng-import keempat fungsi view yang sudah dibuat pada poin 2 ke dalam urls.py.
+    - Menambahkan path URL masing-masing view ke dalam urlpatterns (urls.py)
+
+## screenshot dari hasil akses URL pada Postman ##
+![XML](<Screenshot 2024-09-17 at 15.10.26.png>)
+
+![JSON](<Screenshot 2024-09-17 at 15.10.03.png>)
+
+![XML by ID](<Screenshot 2024-09-17 at 15.10.42.png>)
+
+![JSON by ID](<Screenshot 2024-09-17 at 15.11.00-1.png>)
