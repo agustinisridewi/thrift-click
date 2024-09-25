@@ -268,7 +268,7 @@ Melakukan registrasi 2 akun pada page signup/ kemudian login dan menambahkan 3 d
     - makemigrations dan migrate agar database sesuai dengan perubahan terbaru pada models.py
 
 4) Menampilkan detail informasi pengguna yang sedang logged in seperti username dan menerapkan cookies seperti last login pada halaman utama aplikasi.
-    - Menyimpan Data Last Login dan Username saat Login, serta set cookies saat user login
+    - Menyimpan Data Last Login dan Username saat Login, serta set cookies saat user login.
     ```python
     def login_user(request):
     ...
