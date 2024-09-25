@@ -11,7 +11,7 @@
             font-family: Arial, sans-serif;
             line-height: 1.6;
             color: #333;
-            background-color: #f0f0f0;
+            background-color: #ffecec; 
             margin: 0;
             padding: 0;
         }
@@ -24,7 +24,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         h1 {
-            color: #444;
+            color: #434343; 
             text-align: center;
             margin-top: 20px;
         }
@@ -40,13 +40,14 @@
             margin-bottom: 20px;
             padding: 15px;
             border-radius: 8px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
+            background-color: #fff8e7; 
+            border: 1px solid #f3e2c7; 
         }
         .item strong {
             display: block;
             margin-bottom: 10px;
             font-size: 1.1em;
+            color: #ca3a3a; 
         }
         table {
             width: 100%;
@@ -54,26 +55,26 @@
             margin-top: 20px;
         }
         table, th, td {
-            border: 1px solid #ddd;
+            border: 1px solid #c7f3ee; 
         }
         th, td {
             padding: 10px;
             text-align: left;
+            background-color: #fff8e7; 
         }
 
-        /* Add Product Section Styling */
         .add-product-section {
             margin-top: 40px;
             padding: 20px;
-            background-color: #eaf6ff;
+            background-color: #aed7efe6; 
             border-radius: 8px;
-            border: 1px solid #b3d8ff;
+            border: 1px solid #f3c3d3; 
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
         }
         .add-product-section h2 {
             text-align: center;
             margin-bottom: 20px;
-            color: #0056b3;
+            color: #202020; 
         }
         .add-product-section table {
             width: 100%;
@@ -81,26 +82,34 @@
         }
         .add-product-section th, .add-product-section td {
             padding: 10px;
-            border: 1px solid #b3d8ff;
+            border: 1px solid #f3c3d3; 
         }
         .add-product-section button {
             display: block;
-            margin: 0 auto;
+            margin: 10px auto;
             padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
+            background-color: #f3f0f0; 
+            color: rgb(22, 7, 7);
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
         .add-product-section button:hover {
-            background-color: #45a049;
+            background-color: #ffabab; 
+        }
+
+        a button {
+            background-color: #ffdc73; 
+            margin-top: 10px;
+        }
+        a button:hover {
+            background-color: #ffd04d; 
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <p>{{ nama }} ({{ npm }}) - {{ kelas }}</p>
+        <p>Agus Tini Sridewi ({{ npm }}) - {{ kelas }}</p>
 
         <h1>Thrift Click Goods</h1>
         <p>"Welcome to Thrift Click! Redefine your style and make every click count"</p>
@@ -115,6 +124,7 @@
         </ul>
 
         <div class="add-product-section">
+            <h3>Hi, {{name}} ^-^</h3>
             <h2>Add Your Clothing To Our Closet!</h2>
             <table>
                 <tr>
@@ -133,6 +143,10 @@
             <a href="{% url 'main:create_product_entry' %}">
                 <button>Add Clothing</button>
             </a>
+            <a href="{% url 'main:logout' %}">
+                <button>Logout</button>
+            </a>
+            <h5>Sesi terakhir login: {{ last_login }}</h5>
         </div>
     </div>
 </body>
