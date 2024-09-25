@@ -128,10 +128,12 @@ Jika csrf_token tidak ditambahkan, penyerang dapat memanipulasi data atau membua
 
 # TUGAS MANDIRI 4
 ### Apa perbedaan antara HttpResponseRedirect() dan redirect()
-1) HttpResponseRedirect()
-    HttpResponseRedirect() adalah kelas yang digunakan untuk mengembalikan respons HTTP yang memberitahu browser untuk mengalihkan ke URL yang ditentukan. Kelas ini diimpor dari django.http
-2) redirect()
-    redirect() adalah fungsi shortcut yang memungkinkan pengalihan menggunakan URL, nama view, atau model instance, dan otomatis mengonversi nama view menjadi URL. Fungsi ini dapat diimpor dari django.shortcuts
+1. **HttpResponseRedirect()**  
+   `HttpResponseRedirect()` adalah kelas yang digunakan untuk mengembalikan respons HTTP yang memberitahu browser untuk mengalihkan ke URL yang ditentukan. Kelas ini diimpor dari `django.http`.
+
+2. **redirect()**  
+   `redirect()` adalah fungsi shortcut yang memungkinkan pengalihan menggunakan URL, nama view, atau model instance, dan otomatis mengonversi nama view menjadi URL. Fungsi ini dapat diimpor dari `django.shortcuts`.
+
 
 ### Jelaskan cara kerja penghubungan model Product dengan User!
 Dalam project ini, model Product dihubungkan dengan model User menggunakan ForeignKey.
@@ -143,17 +145,17 @@ class Product(models.Model):
     description = models.TextField()
     price = models.IntegerField()
 ```
-models.ForeignKey(User, on_delete=models.CASCADE): Menunjukkan bahwa kolom ini adalah kunci asing yang merujuk ke model User.
-on_delete=models.CASCADE: Jika pengguna dihapus, semua produk yang terkait dengan pengguna tersebut juga akan dihapus dari database.
+`models.ForeignKey(User, on_delete=models.CASCADE)`: Menunjukkan bahwa kolom ini adalah kunci asing yang merujuk ke model User.
+`on_delete=models.CASCADE`: Jika pengguna dihapus, semua produk yang terkait dengan pengguna tersebut juga akan dihapus dari database.
 #### Cara Kerja?
 - Setiap kali seorang pengguna yang sedang logged in menambahkan entry, entry tersebut akan terhubung dengan si pengguna. 
 - Penggunaan ForeignKey memungkinkan terbentuknya relasi many-to-one antara model Product dan User. Artinya, satu User dapat memiliki banyak Product, sementara setiap Product hanya dapat dimiliki oleh satu User saja
 
 ### Apa perbedaan antara authentication dan authorization, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.
-1) Authentication
+1) **Authentication**  
 Proses untuk memverifikasi identitas pengguna. Ini memastikan bahwa pengguna yang mencoba mengakses sistem adalah siapa yang mereka klaim. 
-2) Authorization
-    Proses untuk menentukan apakah pengguna yang telah terautentikasi memiliki izin untuk melakukan tindakan tertentu atau mengakses sumber daya tertentu. 
+2) **Authorization**  
+Proses untuk menentukan apakah pengguna yang telah terautentikasi memiliki izin untuk melakukan tindakan tertentu atau mengakses sumber daya tertentu. 
 
 Alur Kerja Login Pengguna:
 1. Saat pengguna memasukkan username dan password untuk login, sistem akan memeriksa apakah kombinasi tersebut sesuai dengan yang tersimpan di database.
@@ -161,10 +163,10 @@ Alur Kerja Login Pengguna:
 
 Implementasi Authentication & Authorization
 - Django menggunakan middleware untuk mengelola autentikasi dan otorisasi.
-- Pengguna dapat mengautentikasi menggunakan metode seperti authenticate() untuk memverifikasi kredensial dan login() untuk memulai sesi pengguna yang terautentikasi.
-- Django menyediakan decorator seperti @login_required untuk melindungi tampilan agar hanya dapat diakses oleh pengguna yang telah terautentikasi. 
+- Pengguna dapat mengautentikasi menggunakan metode seperti `authenticate()` untuk memverifikasi kredensial dan `login()` untuk memulai sesi pengguna yang terautentikasi.
+- Django menyediakan decorator seperti `@login_required` untuk melindungi tampilan agar hanya dapat diakses oleh pengguna yang telah terautentikasi. 
 - Django memiliki fitur permissions untuk authorization.
-- Setelah pengguna terautentikasi, informasi tentang pengguna yang terautentikasi disimpan dalam request.user
+- Setelah pengguna terautentikasi, informasi tentang pengguna yang terautentikasi disimpan dalam `request.user`
 
 
 ### Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari cookies dan apakah semua cookies aman digunakan?
@@ -174,7 +176,7 @@ Setiap kali pengguna melakukan permintaan selanjutnya, Django memeriksa sesi yan
 ### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 1) Mengimplementasikan fungsi registrasi, login, dan logout untuk memungkinkan pengguna untuk mengakses aplikasi sebelumnya dengan lancar.
     #### Registrasi
-    - Membuat form registrasi view menggunakan UserCreationForm.
+    - Membuat form registrasi view menggunakan `UserCreationForm`.
     ```python
     def register(request):
         form = UserCreationForm()
@@ -188,7 +190,7 @@ Setiap kali pengguna melakukan permintaan selanjutnya, Django memeriksa sesi yan
         context = {'form':form}
         return render(request, 'register.html', context)
     ```
-    - Membuat berkas register.html dalam templates untuk tampilan form registrasi.
+    - Membuat berkas `register.html` dalam templates untuk tampilan form registrasi.
 
     #### Login
     - Membuat form login view untuk pengguna yang sudah terdaftar.
@@ -209,7 +211,7 @@ Setiap kali pengguna melakukan permintaan selanjutnya, Django memeriksa sesi yan
         context = {'form': form}
         return render(request, 'login.html', context)
     ```
-    - Membuat berkas login.html dalam templates untuk tampilan form login.
+    - Membuat berkas `login.html` dalam templates untuk tampilan form login.
 
     #### Logout
     - Membuat form logout view
@@ -220,7 +222,7 @@ Setiap kali pengguna melakukan permintaan selanjutnya, Django memeriksa sesi yan
         response.delete_cookie('last_login')
         return response
     ```
-    - Menambahkan logout button pada main.html yang terintegrasi dengan hyperlink logout
+    - Menambahkan logout button pada `main.html` yang terintegrasi dengan hyperlink logout
     ```python
     <a href="{% url 'main:logout' %}">
         <button>Logout</button>
@@ -244,7 +246,8 @@ Setiap kali pengguna melakukan permintaan selanjutnya, Django memeriksa sesi yan
     ]
     ```
 
-2) Membuat dua akun pengguna dengan masing-masing tiga dummy data menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun di lokal.
+2) Membuat dua akun pengguna dengan masing-masing tiga dummy data menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun di lokal.  
+Melakukan registrasi 2 akun pada page signup/ kemudian login dan menambahkan 3 data pada page create-product-entry/ untuk kedua akun.
 ![alt text](<Screenshot 2024-09-25 at 07.52.15.png>)
 ![alt text](<Screenshot 2024-09-25 at 07.41.51.png>)
 
