@@ -27,7 +27,7 @@
         <p class="mb-4"><strong>Description:</strong> {{ product_entry.description }}</p>
         <div class="flex justify-between">
           <a href="{% url 'main:edit_product' product_entry.pk %}">
-            <button class="bg-[#ffdc73] p-2 rounded hover:bg-[#ffd04d]">Edit </button>
+            <button class="bg-[#ffdc73] p-2 rounded hover:bg-[#ffd04d]">Edit</button>
           </a>
           <a href="{% url 'main:delete_product' product_entry.pk %}">
             <button class="bg-[#ffabab] p-2 rounded hover:bg-[#ffb6b6]">Delete</button>
