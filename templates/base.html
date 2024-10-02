@@ -5,9 +5,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% block meta %} {% endblock meta %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'css/global.css' %}"/>
   </head>
-
   <body>
     {% block content %} {% endblock content %}
+    <footer>
+        <div class="fixed border-t-2 bottom-0 px-4 justify-between w-full bottom-0  flex flex-row py-3 " style="background-color: #963a2f">
+          <p style="color: #ffffff;">Agus Tini Sridewi</p> 
+        <p style="color: #ffffff;">PBP C</p>
+        </div>
+      </footer>
   </body>
 </html>

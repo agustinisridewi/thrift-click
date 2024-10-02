@@ -1,118 +1,46 @@
 {% extends 'base.html' %}
 
+{% load static %}  
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% block meta %}
 <title>Login</title>
 {% endblock meta %}
 
 {% block content %}
-<div class="login-wrapper">
-    <div class="login">
-    <h1>Login</h1>
 
-    <form method="POST" action="">
-        {% csrf_token %}
-        <table>
-        {{ form.as_table }}
-        <tr>
-            <td></td>
-            <td><input class="btn login_btn" type="submit" value="Login" /></td>
-        </tr>
-        </table>
-    </form>
+<div class="login-wrapper flex flex-col items-center justify-center h-screen" style="background-color: #fffee9;">
+    
+    <!-- Title centered above the login card -->
+    <h1 class="text-gray-700 text-5xl font-bold mb-8" style="color: #963a2f;">Thrift Click.</h1> <!-- Title color -->
 
-    {% if messages %}
-    <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-  {% endif %}
-  
-    Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a>
+    <div class="login w-80 mx-auto p-8 bg-pink-100 rounded-lg shadow-lg text-center" style="background-color: #ecb984;">
+        <h1 class="text-gray-700 text-2xl font-bold mb-6">Login</h1>
+
+        <form method="POST" action="">
+            {% csrf_token %}
+            <table class="w-full mb-4">
+                {{ form.as_table }}
+                <tr>
+                    <td></td>
+                    <td><input class="btn login_btn w-full bg-teal-200 text-white font-semibold py-2 rounded-lg hover:bg-teal-300 transition-colors cursor-pointer" type="submit" value="Login" style="background-color: #ea9b47;" /></td>
+                </tr>
+            </table>
+        </form>
+
+        {% if messages %}
+        <ul class="text-red-400 list-none mt-4">
+            {% for message in messages %}
+            <li class="py-1">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <p class="mt-4 text-gray-600">
+            Don't have an account yet? 
+            <a href="{% url 'main:register' %}" class="text-teal-600 font-bold hover:text-teal-500">Register Now</a>
+        </p>
     </div>
 </div>
-
-<style>
-  .login-wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #eca9a9; 
-      margin: 0;
-  }
-  .login {
-      width: 300px;
-      margin: 100px auto;
-      padding: 30px;
-      background-color: #f7f0f0; 
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
-      text-align: center;
-  }
-
-  .login h1 {
-      color: #4f4f4e; 
-      font-family: 'Arial', sans-serif;
-      margin-bottom: 20px;
-  }
-
-  .login form {
-      display: inline-block;
-      text-align: left;
-      width: 100%;
-  }
-
-  .login table {
-      width: 100%;
-      margin-bottom: 20px;
-  }
-
-  .login input[type="text"], 
-  .login input[type="password"] {
-      width: calc(100% - 20px); 
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ddd;
-      margin-bottom: 15px;
-      background-color: #fdf6f6; 
-  }
-
-  .btn.login_btn {
-      width: 100%;
-      background-color: #b6d6d3; 
-      color: #fff;
-      border: none;
-      padding: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-  }
-
-  .btn.login_btn:hover {
-      background-color: #a1c8c4; 
-  }
-
-  ul {
-      list-style-type: none;
-      padding: 0;
-      margin-top: 10px;
-      color: #e58282; 
-  }
-
-  ul li {
-      padding: 5px;
-  }
-
-  a {
-      color: #6b8e92; 
-      text-decoration: none;
-      font-weight: bold;
-  }
-
-  a:hover {
-      color: #54817f;
-  }
-</style>
 
 {% endblock content %}
