@@ -28,12 +28,13 @@ def show_main(request):
 def create_product_entry(request):
     form = ProductEntryForm(request.POST or None)
 
-    if form.is_valid() and request.method == "POST":      
+    if request.method == "POST" and form.is_valid():
         product_entry = form.save(commit=False)
         product_entry.user = request.user
         product_entry.save()
-        return redirect('main:show_main')
-
+        messages.success(request, 'Product added successfully!')  # Success message
+        return redirect('main:show_main')  # Redirect to show_main
+    
     context = {'form': form}
     return render(request, "create_product_entry.html", context)
 
@@ -109,22 +110,24 @@ def delete_product(request, id):
 @csrf_exempt
 @require_POST
 def add_product_entry_ajax(request):
-    name = strip_tags(request.POST.get("name")) # strip HTML tags!
-    description = strip_tags(request.POST.get("description")) # strip HTML tags!
+    name = strip_tags(request.POST.get("name"))
+    description = strip_tags(request.POST.get("description"))
     price = request.POST.get("price")
     user = request.user
 
+    # Check for potential XSS attack
     if '<' in request.POST.get("name") or '>' in request.POST.get("name") or \
         '<' in request.POST.get("description") or '>' in request.POST.get("description"):
-            messages.error(request, "This field cannot be blank")
-            return HttpResponse("This field cannot be blank", status=400)
-    
+        messages.error(request, "This field cannot be blank")
+        return HttpResponse("This field cannot be blank", status=400)
+
+    # Buat produk baru
     new_product = Product(
-        name=name, 
+        name=name,
         description=description,
         price=price,
         user=user
     )
+
     new_product.save()
-    messages.success(request, 'Product added successfully!') 
-    return HttpResponse(b"CREATED", status=201)
+    return redirect('main:show_main')

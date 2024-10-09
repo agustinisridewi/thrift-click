@@ -9,39 +9,39 @@
 {% include 'navbar.html' %}
 
 <div class="overflow-x-hidden px-4 md:px-8 pb-8 pt-24 min-h-screen bg-[#fffee9] flex flex-col">
-    <p class="text-center text-gray-500 mb-6">"Welcome to Thrift Click! Redefine your style and make every click count!"</p>
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="container bg-[#ecb984] p-5 rounded-lg shadow-lg">
+            <h1 class="text-3xl font-bold text-center mb-8 text-black">Edit Product</h1>
 
-    <div class="container bg-[#fffee9] p-5 rounded-lg shadow-lg">
-        <h1 class="text-3xl font-bold text-center mb-8 text-black">Edit Product</h1>
-
-        <div class="bg-white shadow-md rounded-lg p-6 form-style">
-            <form method="POST" class="space-y-6">
-                {% csrf_token %}
-                {% for field in form %}
-                    <div class="flex flex-col">
-                        <label for="{{ field.id_for_label }}" class="mb-2 font-semibold text-gray-700">
-                            {{ field.label }}
-                        </label>
-                        <div class="w-full mb-4">
-                            <input type="text" name="{{ field.name }}" id="{{ field.id_for_label }}" class="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring focus:ring-[#ecb984]" value="{{ field.value|default:'' }}">
+            <div class="bg-white shadow-md rounded-lg p-6 form-style">
+                <form method="POST" class="space-y-6">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="flex flex-col">
+                            <label for="{{ field.id_for_label }}" class="mb-2 font-semibold text-gray-700">
+                                {{ field.label }}
+                            </label>
+                            <div class="w-full mb-4">
+                                <input type="text" name="{{ field.name }}" id="{{ field.id_for_label }}" class="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring focus:ring-[#ecb984]" value="{{ field.value|default:'' }}">
+                            </div>
+                            {% if field.help_text %}
+                                <p class="mt-1 text-sm text-gray-500">{{ field.help_text }}</p>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+                            {% endfor %}
                         </div>
-                        {% if field.help_text %}
-                            <p class="mt-1 text-sm text-gray-500">{{ field.help_text }}</p>
-                        {% endif %}
-                        {% for error in field.errors %}
-                            <p class="mt-1 text-sm text-red-600">{{ error }}</p>
-                        {% endfor %}
+                    {% endfor %}
+                    <div class="flex justify-center mt-6">
+                        <button type="submit" class="bg-[#d58258] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#963a2f] transition duration-300 ease-in-out w-full">
+                            Save
+                        </button>
+                        <a href="{% url 'main:show_main' %}" class="bg-gray-400 text-white font-semibold px-6 py-3 rounded-lg hover:bg-gray-500 transition duration-300 ease-in-out w-full text-center">
+                            Cancel
+                        </a>
                     </div>
-                {% endfor %}
-                <div class="flex justify-center mt-6">
-                    <button type="submit" class="bg-[#ecb984] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#d58258] transition duration-300 ease-in-out w-full">
-                        Save
-                    </button>
-                    <a href="{% url 'main:show_main' %}" class="bg-gray-400 text-white font-semibold px-6 py-3 rounded-lg hover:bg-gray-500 transition duration-300 ease-in-out w-full text-center">
-                        Cancel
-                    </a>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>

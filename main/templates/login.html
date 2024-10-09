@@ -1,46 +1,57 @@
 {% extends 'base.html' %}
 
-{% load static %}  
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% block meta %}
 <title>Login</title>
 {% endblock meta %}
 
 {% block content %}
-
-<div class="login-wrapper flex flex-col items-center justify-center h-screen" style="background-color: #fffee9;">
-    
-    <!-- Title centered above the login card -->
-    <h1 class="text-gray-700 text-5xl font-bold mb-8" style="color: #963a2f;">Thrift Click.</h1> <!-- Title color -->
-
-    <div class="login w-80 mx-auto p-8 bg-pink-100 rounded-lg shadow-lg text-center" style="background-color: #ecb984;">
-        <h1 class="text-gray-700 text-2xl font-bold mb-6">Login</h1>
-
-        <form method="POST" action="">
-            {% csrf_token %}
-            <table class="w-full mb-4">
-                {{ form.as_table }}
-                <tr>
-                    <td></td>
-                    <td><input class="btn login_btn w-full bg-teal-200 text-white font-semibold py-2 rounded-lg hover:bg-teal-300 transition-colors cursor-pointer" type="submit" value="Login" style="background-color: #ea9b47;" /></td>
-                </tr>
-            </table>
-        </form>
-
-        {% if messages %}
-        <ul class="text-red-400 list-none mt-4">
-            {% for message in messages %}
-            <li class="py-1">{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-
-        <p class="mt-4 text-gray-600">
-            Don't have an account yet? 
-            <a href="{% url 'main:register' %}" class="text-teal-600 font-bold hover:text-teal-500">Register Now</a>
-        </p>
+<div class="min-h-screen flex items-center justify-center bg-[#fffee9] py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8 form-style">
+    <div>
+      <h1 class="text-gray-700 text-5xl font-bold text-center mb-8" style="color: #963a2f;">Thrift Click.</h1>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-black">
+        Login to your account
+      </h2>
     </div>
-</div>
+    <form class="mt-8 space-y-6" method="POST" action="">
+      {% csrf_token %}
+      <input type="hidden" name="remember" value="true">
+      <div class="rounded-md shadow-sm -space-y-px">
+        <div>
+          <label for="username" class="sr-only">Username</label>
+          <input id="username" name="username" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-[#d58258] focus:border-[#d58258] focus:z-10 sm:text-sm" placeholder="Username">
+        </div>
+        <div>
+          <label for="password" class="sr-only">Password</label>
+          <input id="password" name="password" type="password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-[#d58258] focus:border-[#d58258] focus:z-10 sm:text-sm" placeholder="Password">
+        </div>
+      </div>
 
+      <div>
+        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#ecb984] hover:bg-[#d58258] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#d58258]">
+          Sign in
+        </button>
+      </div>
+    </form>
+
+    {% if messages %}
+    <div class="mt-4">
+      {% for message in messages %}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <span class="block sm:inline">{{ message }}</span>
+        </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="text-center mt-4">
+      <p class="text-sm text-black">
+        Don't have an account yet?
+        <a href="{% url 'main:register' %}" class="font-medium text-[#ecb984] hover:text-[#d58258]">
+          Register Now
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
 {% endblock content %}
