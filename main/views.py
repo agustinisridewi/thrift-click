@@ -8,49 +8,18 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.core import serializers
 from django.shortcuts import render, redirect, reverse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from main.forms import ProductEntryForm
 from main.models import Product
+from django.utils.html import strip_tags
 
 @login_required(login_url='/login')
 def show_main(request):
-    items = [
-        {
-            'name': 'Chunky Platform Shoes',
-            'price': '200000',
-            'description': 'Bold, chunky platform shoes perfect for Y2K fashion lovers.',
-        },
-        {
-            'name': 'Ripped Jeans',
-            'price': '100000',
-            'description': 'High-waisted distressed denim for that laid-back grunge look.',
-        },
-        {
-            'name': 'Track Jacket',
-            'price': '150000',
-            'description': 'Vintage Nike track jacket with bold colors and retro design.',
-        },
-        {
-            'name': 'Graphic Tee',
-            'price': '50000',
-            'description': 'Vintage band tee with iconic 90s graphics.',
-        }
-    ]
-
-    product_entries = Product.objects.filter(user=request.user)
-
-    for product in product_entries:
-        items.append({
-            'name': product.name,
-            'price': product.price,
-            'description': product.description,
-        })
-
     context = {
-        'items': items,
         'name': request.user.username,       
         'npm': '2306276004',
         'kelas': 'PBP C',
-        'product_entries': product_entries,
         'last_login': request.COOKIES['last_login'],
     }
 
@@ -59,7 +28,7 @@ def show_main(request):
 def create_product_entry(request):
     form = ProductEntryForm(request.POST or None)
 
-    if form.is_valid() and request.method == "POST":
+    if form.is_valid() and request.method == "POST":      
         product_entry = form.save(commit=False)
         product_entry.user = request.user
         product_entry.save()
@@ -69,11 +38,11 @@ def create_product_entry(request):
     return render(request, "create_product_entry.html", context)
 
 def show_xml(request):
-    data = Product.objects.all()
-    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+    data = Product.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/json")
 
-def show_json(request):
-    data = Product.objects.all()
+def show_json(request):    
+    data = Product.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def show_xml_by_id(request, id):
@@ -106,7 +75,9 @@ def login_user(request):
             response = HttpResponseRedirect(reverse("main:show_main"))
             response.set_cookie('last_login', str(datetime.datetime.now()))
             return response
-
+      else:
+        messages.error(request, "Invalid username or password. Please try again.")
+   
    else:
       form = AuthenticationForm(request)
    context = {'form': form}
@@ -134,3 +105,26 @@ def delete_product(request, id):
     delproduct = Product.objects.get(pk = id)
     delproduct.delete()
     return HttpResponseRedirect(reverse('main:show_main'))
+
+@csrf_exempt
+@require_POST
+def add_product_entry_ajax(request):
+    name = strip_tags(request.POST.get("name")) # strip HTML tags!
+    description = strip_tags(request.POST.get("description")) # strip HTML tags!
+    price = request.POST.get("price")
+    user = request.user
+
+    if '<' in request.POST.get("name") or '>' in request.POST.get("name") or \
+        '<' in request.POST.get("description") or '>' in request.POST.get("description"):
+            messages.error(request, "This field cannot be blank")
+            return HttpResponse("This field cannot be blank", status=400)
+    
+    new_product = Product(
+        name=name, 
+        description=description,
+        price=price,
+        user=user
+    )
+    new_product.save()
+    messages.success(request, 'Product added successfully!') 
+    return HttpResponse(b"CREATED", status=201)

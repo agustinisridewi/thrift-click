@@ -301,6 +301,8 @@ Melakukan registrasi 2 akun pada page signup/ kemudian login dan menambahkan 3 d
     ```
 </details>
 
+<details>
+<summary>TUGAS MANDIRI 5</summary>
 # TUGAS INDIVIDU 5
  ### Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
  1. Inline Styles, CSS yang ditulis langsung di atribut elemen HTML menggunakan `style="..."` akan memiliki prioritas tertinggi.
@@ -347,5 +349,63 @@ Melakukan registrasi 2 akun pada page signup/ kemudian login dan menambahkan 3 d
  3) Menambahkan folder baru yaitu static/image untuk menyimpan gambar. Kemudian menambahkan image tersebut ke main.html untuk menampilkan gambar jika belum ada data product yang tersimpan.
  4) Menambahkan konfigurasi file static dengan cara menambahkan whitenoise.middleware.WhiteNoiseMiddleware ke middleware, lalu menambahkan STATICFILES_DIRS dan juga STATIC_ROOT.
  5) Membuat navbar yang responsive pada base.html di folder templates menggunakan Tailwind dan mengimplementasikan dropdown navbar untuk pengguna yang sedang login di handphone dengan penanganan interaksi menggunakan JavaScript, termasuk menampilkan dan menyembunyikan menu mobile.
+</details>
 
+# TUGAS MANDIRI 6
+### Jelaskan manfaat dari penggunaan JavaScript dalam pengembangan aplikasi web!
+Jika HTML digunakan untuk struktur dan konten dasar halaman web serta CSS digunakan untuk mengatur tampilan, tata letak elemen-element HTML, menambahkan gaya, warna, font, dan layout ke halaman web, JavaScript berperan untuk menambahkan interaktivitas dan fungsionalitas pada halaman web. Dengan menggunakan JavaScript, kita dapat membuat elemen yang responsif terhadap event yang dilakukan oleh pengguna, mengolah data, dan berkomunikasi dengan server.
 
+### Jelaskan fungsi dari penggunaan await ketika kita menggunakan fetch()! Apa yang akan terjadi jika kita tidak menggunakan await?
+Keyword await berfungsi untuk menunggu respons yang dikembalikan oleh fetch() sebelum melanjutkan eksekusi kode berikutnya, memungkinkan pemanggilan data secara asinkron.
+
+Tanpa menggunakan await, kode akan terus berjalan tanpa menunggu respons dari fetch(). Hal ini berarti bagian kode yang bergantung pada hasil dari fetch() bisa dieksekusi sebelum respons tersedia, yang dapat menyebabkan error atau hasil yang tidak diharapkan.
+
+### Mengapa kita perlu menggunakan decorator csrf_exempt pada view yang akan digunakan untuk AJAX POST?
+Saat melakukan permintaan AJAX POST, token CSRF umumnya disertakan dalam header sebagai bagian dari data formulir. Jika token CSRF tidak ada dalam permintaan AJAX, Django akan secara otomatis menolak permintaan itu sebagai bagian dari mekanisme keamanannya.
+
+Kita memerlukan decorator csrf_exempt karena pada fungsi add_product_entry_ajax, autentikasi sudah dilakukan dan kita yakin bahwa permintaan tersebut valid. Oleh karena itu, kita dapat memilih untuk tidak mengharuskan adanya token CSRF untuk operasi ini. Dekorator @csrf_exempt digunakan untuk menonaktifkan pemeriksaan token CSRF pada view tersebut.
+
+### Pada tutorial PBP minggu ini, pembersihan data input pengguna dilakukan di belakang (backend) juga. Mengapa hal tersebut tidak dilakukan di frontend saja?
+Pembersihan data input pengguna juga sangat penting di sisi backend karena kita perlu memastikan bahwa semua data yang diterima dari pengguna telah diperiksa dan dibersihkan sebelum disimpan atau diproses lebih lanjut. Langkah ini membantu mencegah serangan seperti Cross-Site Scripting (XSS), yang dapat merusak data atau membahayakan pengguna. Dengan demikian, pembersihan di backend memberikan lapisan perlindungan tambahan untuk aplikasi kita.
+
+Selain itu, pembersihan data di backend juga memastikan konsistensi dalam penanganan data. Hal ini mengurangi kemungkinan terjadinya kesalahan yang dapat muncul jika hanya bergantung pada pembersihan di frontend, serta memastikan bahwa hanya data yang valid dan aman yang akan diproses oleh sistem.
+
+### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step 
+1) Mengubah kode cards data product agar dapat mendukung AJAX GET
+2) Melakukan pengambilan data product menggunakan AJAX GET. Memastikan bahwa data yang diambil hanyalah data milik pengguna yang logged-in.
+``` python
+async function getProductEntries(){
+    return fetch("{% url 'main:show_json' %}").then((res) => res.json())
+  }
+```
+3) Membuat sebuah tombol yang membuka sebuah modal dengan form untuk menambahkan mood.
+```python
+<button data-modal-target="crudModal" data-modal-toggle="crudModal" class="btn custom-bg hover:custom-bg text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105" onclick="showModal();">
+      Add New Product Entry by AJAX
+    </button>
+```
+4) Membuat fungsi view baru untuk menambahkan product baru ke dalam basis data.
+```python
+@csrf_exempt
+@require_POST
+def add_product_entry_ajax(request):
+    name = strip_tags(request.POST.get("name")) # strip HTML tags!
+    description = strip_tags(request.POST.get("description")) # strip HTML tags!
+    price = request.POST.get("price")
+    user = request.user
+
+    new_product = Product(
+        name=name, 
+        description=description,
+        price=price,
+        user=user
+    )
+    new_product.save()
+
+    return HttpResponse(b"CREATED", status=201)
+```
+5) Membuat path /create-product-entry-ajax/ di urls.py yang mengarah ke fungsi view yang baru dibuat.
+6) Menghubungkan form yang telah kamu buat di dalam modal kamu ke path /create-ajax/. Menambahkan kode ke fungsi addProductEntry() di main.html
+
+7) Melakukan refresh pada halaman utama secara asinkronus untuk menampilkan daftar mood terbaru tanpa reload halaman utama secara keseluruhan.
+- Membuat fungsi refreshProductEntries() untuk memperbarui halaman, lalu mengintegrasikan fungsi ini ke dalam fungsi addProductEntry(). Dengan cara ini, setiap kali tombol submit ditekan, produk baru akan ditambahkan dan halaman akan diperbarui secara asinkronus.
